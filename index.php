@@ -10,7 +10,7 @@ class ImageService
 {
     public function generate(array $data)
     {
-        $img = Image::make($data['bg']);
+        $img = $this->getBg($data['bg']);
 
         foreach ($data['components'] as $component) {
             if (isset($component['img'])) {
@@ -38,7 +38,7 @@ class ImageService
                     $y += $size['height'] * 2;
                 }
 
-                $img->insert($txt, '', $component['x'], $component['y']);
+                $img->insert($txt, $component['position'] ?? '', $component['x'], $component['y']);
             }
 
         }
@@ -72,6 +72,15 @@ class ImageService
         $rgba = sscanf($color[0], '#%2x%2x%2x');
         $rgba[] = $color[1] ?? 0;
         return $rgba;
+    }
+
+    public function getBg($bg)
+    {
+        if (is_array($bg)) {
+            return Image::canvas($bg['width'], $bg['height'], $bg['color']);
+        }
+
+        return Image::make($bg);
     }
 }
 

@@ -1,0 +1,11 @@
+{
+
+    "components": [
+        {
+            "text": "The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog?"
+        },
+        {
+            "img": "public/model/imgs/produtos/celular.png"
+        }
+    ]
+}

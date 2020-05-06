@@ -1,0 +1,31 @@
+{
+    "bg": {
+        "color": "#ffffff",
+        "width": 1000,
+        "height": 1000
+    },
+    "components": [
+        {
+            "font": "public/model/fonts/Homework.ttf",
+            "color": "#1E90FF",
+            "bg-color": "#7bde84",
+            "size": 50,
+            "position": "top"
+        },
+        {
+        },
+        {
+            "img": "public/model/imgs/logos/castor.png",
+            "position": "top-right",
+            "width": 200,
+            "x": 10,
+            "y": 10
+        },
+        {
+            "img": "public/model/imgs/logos/actualsales.png",
+            "position": "bottom-left",
+            "x": 10,
+            "y": 10
+        }
+    ]
+}
