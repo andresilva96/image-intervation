@@ -68,24 +68,25 @@ class ImageService
 
     public function getRgba($hex): array
     {
+        if (!$hex) return [0,0,0,0];
         $color = explode(' ', $hex);
         $rgba = sscanf($color[0], '#%2x%2x%2x');
-        $rgba[] = $color[1] ?? 0;
+        $rgba[] = $color[1] ?? 1;
         return $rgba;
     }
 
     public function getBg($bg)
     {
         if (is_array($bg)) {
-            return Image::canvas($bg['width'], $bg['height'], $bg['color']);
+            return Image::canvas($bg['width'], $bg['height'], $this->getRgba($bg['color']));
         }
 
         return Image::make($bg);
     }
 }
 
-$template = json_decode(file_get_contents('./public/model/templates/first.json'), true);
-$post     = json_decode(file_get_contents('./public/model/posts/first.json'), true);
+$template = json_decode(file_get_contents('./public/model/templates/second.json'), true);
+$post     = json_decode(file_get_contents('./public/model/posts/second.json'), true);
 $json     = array_replace_recursive($template, $post);
 
 $obj  = (new ImageService())->generate($json);

@@ -1,8 +1,13 @@
 {
-
+    "bg": {
+        "color": "#6c5ce7",
+        "width": 1000,
+        "height": 1000
+    },
     "components": [
         {
-            "text": "The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog?"
+            "text": "The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog?",
+            "color": "#1E90FF"
         },
         {
             "img": "public/model/imgs/produtos/celular.png"
