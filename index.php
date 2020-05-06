@@ -21,7 +21,10 @@ class ImageService
 
             if (isset($component['text'])) {
                 $size   = $this->getSize($component['size'], $component['font']);
-                $lines  = explode("\n", wordwrap($component['text'], 30));
+
+                $teste = $this->limitByWidth($component['size'], $component['font'], $component['text'], $component['width']);
+
+                $lines  = explode("\n", wordwrap($component['text'], $teste));
                 $y      = $size['height'] * 2;
                 $width  = $this->maxWidth($lines, $component['size'], $component['font']) + ($size['width'] * 2);
                 $height = ((count($lines) + 1) * $y) - $size['height'];
@@ -83,7 +86,27 @@ class ImageService
 
         return Image::make($bg);
     }
+
+    public function limitByWidth($size, $font, $txt, $width)
+    {
+        $str = '';
+
+        foreach (str_split($txt) as $letter) {
+            $str .= $letter;
+
+            $box = $this->getSize($size, $font, $str);
+
+            if ($box['width'] >= $width) {
+                return strlen($str);
+            }
+        }
+    }
 }
+
+// $txt = 'The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog?';
+// $width  = (new ImageService())->limitByWidth(30, 'public/model/fonts/Homework.ttf', $txt, 300);
+// var_dump($width);exit;
+
 
 $template = json_decode(file_get_contents('./public/model/templates/second.json'), true);
 $post     = json_decode(file_get_contents('./public/model/posts/second.json'), true);
