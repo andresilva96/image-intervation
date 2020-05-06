@@ -4,7 +4,6 @@
         {
             "font": "public/model/fonts/Homework.ttf",
             "color": "#1E90FF",
-            "bg-color": "#7bde84",
             "size": 30,
             "x": 100
         },
