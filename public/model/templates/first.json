@@ -1,0 +1,30 @@
+{
+    "bg": "public/model/imgs/background/bancada_tabua.jpg",
+    "components": [
+        {
+            "font": "public/model/fonts/Homework.ttf",
+            "color": "#1E90FF",
+            "bg-color": "#7bde84",
+            "size": 30,
+            "x": 100
+        },
+        {
+            "x": 20,
+            "y": -50,
+            "width": 500
+        },
+        {
+            "img": "public/model/imgs/logos/castor.png",
+            "position": "top-right",
+            "width": 100,
+            "x": 10,
+            "y": 10
+        },
+        {
+            "img": "public/model/imgs/logos/actualsales.png",
+            "position": "bottom-left",
+            "x": 10,
+            "y": 10
+        }
+    ]
+}
