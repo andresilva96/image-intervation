@@ -8,17 +8,25 @@ use Intervention\Image\ImageManagerStatic as Image;
 
 class ImageService
 {
+    public $img;
     public $component;
 
     public function generate(array $data)
     {
-        $img = $this->getBg($data['bg']);
+        $this->img = $this->getBg($data['bg']);
+        $this->apply($data['dynamic']);
+        $this->apply($data['static']);
 
-        foreach ($data['components'] as $this->component) {
+        return $this->img->save('public/results/teste.png', 100, 'png');
+    }
+
+    public function apply($data)
+    {
+        foreach ($data as $this->component) {
             if (isset($this->component['img'])) {
                 $imgCustom = Image::make($this->component['img']);
                 $imgCustom->resize($this->component['width'] ?? $imgCustom->getWidth(), $this->component['width'] ?? $imgCustom->getHeight());
-                $img->insert($imgCustom, $this->component['position'] ?? '', $this->component['x'], $this->component['y']);
+                $this->img->insert($imgCustom, $this->component['position'] ?? '', $this->component['x'], $this->component['y']);
             }
 
             if (isset($this->component['text'])) {
@@ -44,12 +52,9 @@ class ImageService
                     $y += $size['height'] * 2;
                 }
 
-                $img->insert($txt, $this->component['position'] ?? '', $this->component['x'], $this->component['y']);
+                $this->img->insert($txt, $this->component['position'] ?? '', $this->component['x'], $this->component['y']);
             }
-
         }
-
-        return $img->save('public/results/teste.png', 100, 'png');
     }
 
     public function getSize($text = '0')

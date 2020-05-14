@@ -1,13 +1,13 @@
 {
-    "components": [
+    "dynamic": [
         {
             "font": "public/model/fonts/Homework.ttf",
             "bg-color": "#8e44ad",
             "size": 50,
             "position": "top"
-        },
-        {
-        },
+        }
+    ],
+    "static": [
         {
             "img": "public/model/imgs/logos/castor.png",
             "position": "top-right",

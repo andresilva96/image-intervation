@@ -4,7 +4,7 @@
         "width": 1000,
         "height": 1000
     },
-    "components": [
+    "dynamic": [
         {
             "text": "The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog?",
             "color": "#1E90FF",
