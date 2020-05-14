@@ -110,8 +110,8 @@ class ImageService
     }
 }
 
-$template = json_decode(file_get_contents('./public/model/templates/second.json'), true);
 $post     = json_decode(file_get_contents('./public/model/posts/second.json'), true);
+$template = json_decode(file_get_contents($post['template']), true);
 $json     = array_replace_recursive($template, $post);
 
 $obj  = (new ImageService())->generate($json);

@@ -1,9 +1,5 @@
 {
-    "bg": {
-        "color": "#6c5ce7",
-        "width": 1000,
-        "height": 1000
-    },
+    "template": "public/model/templates/second.json",
     "dynamic": [
         {
             "text": "The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog?",

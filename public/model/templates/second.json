@@ -1,4 +1,9 @@
 {
+    "bg": {
+        "color": "#6c5ce7",
+        "width": 1000,
+        "height": 1000
+    },
     "dynamic": [
         {
             "font": "public/model/fonts/Homework.ttf",
