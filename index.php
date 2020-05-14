@@ -22,14 +22,16 @@ class ImageService
             }
 
             if (isset($this->component['text'])) {
-                $size   = $this->getSize();
+                // Lines on string
+                $lines  = explode("\n", wordwrap($this->component['text'], $this->limitByWidth()));
 
-                $limit  = $this->limitByWidth();
-                $lines  = explode("\n", wordwrap($this->component['text'], $limit ));
+                // Size
+                $size   = $this->getSize();
                 $y      = $size['height'] * 2;
                 $width  = $this->maxWidth($lines) + ($size['width'] * 2);
                 $height = ((count($lines) + 1) * $y) - $size['height'];
 
+                // Content
                 $txt    = Image::canvas($width, $height, $this->getRgba($this->component['bg-color']));
 
                 foreach ($lines as $line) {
