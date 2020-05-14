@@ -8,40 +8,41 @@ use Intervention\Image\ImageManagerStatic as Image;
 
 class ImageService
 {
+    public $component;
+
     public function generate(array $data)
     {
         $img = $this->getBg($data['bg']);
 
-        foreach ($data['components'] as $component) {
-            if (isset($component['img'])) {
-                $imgCustom = Image::make($component['img']);
-                $imgCustom->resize($component['width'] ?? $imgCustom->getWidth(), $component['width'] ?? $imgCustom->getHeight());
-                $img->insert($imgCustom, $component['position'] ?? '', $component['x'], $component['y']);
+        foreach ($data['components'] as $this->component) {
+            if (isset($this->component['img'])) {
+                $imgCustom = Image::make($this->component['img']);
+                $imgCustom->resize($this->component['width'] ?? $imgCustom->getWidth(), $this->component['width'] ?? $imgCustom->getHeight());
+                $img->insert($imgCustom, $this->component['position'] ?? '', $this->component['x'], $this->component['y']);
             }
 
-            if (isset($component['text'])) {
-                $size   = $this->getSize($component['size'], $component['font']);
+            if (isset($this->component['text'])) {
+                $size   = $this->getSize();
 
-                $teste = $this->limitByWidth($component['size'], $component['font'], $component['text'], $component['width']);
-
-                $lines  = explode("\n", wordwrap($component['text'], $teste));
+                $limit  = $this->limitByWidth();
+                $lines  = explode("\n", wordwrap($this->component['text'], $limit ));
                 $y      = $size['height'] * 2;
-                $width  = $this->maxWidth($lines, $component['size'], $component['font']) + ($size['width'] * 2);
+                $width  = $this->maxWidth($lines) + ($size['width'] * 2);
                 $height = ((count($lines) + 1) * $y) - $size['height'];
 
-                $txt    = Image::canvas($width, $height, $this->getRgba($component['bg-color']));
+                $txt    = Image::canvas($width, $height, $this->getRgba($this->component['bg-color']));
 
                 foreach ($lines as $line) {
-                    $txt->text($line, $size['width'], $y, function ($font) use ($component) {
-                        $font->file($component['font']);
-                        $font->size($component['size']);
-                        $font->color($component['color']);
+                    $txt->text($line, $size['width'], $y, function ($font) {
+                        $font->file($this->component['font']);
+                        $font->size($this->component['size']);
+                        $font->color($this->component['color']);
                     });
 
                     $y += $size['height'] * 2;
                 }
 
-                $img->insert($txt, $component['position'] ?? '', $component['x'], $component['y']);
+                $img->insert($txt, $this->component['position'] ?? '', $this->component['x'], $this->component['y']);
             }
 
         }
@@ -49,21 +50,21 @@ class ImageService
         return $img->save('public/results/teste.png', 100, 'png');
     }
 
-    public function getSize($size, $file, $text = '0')
+    public function getSize($text = '0')
     {
         $font = new Font($text);
-        $font->file($file);
-        $font->size($size);
+        $font->file($this->component['font']);
+        $font->size($this->component['size']);
 
         return $font->getBoxSize();
     }
 
-    public function maxWidth(array $lines, int $size, string $file): int
+    public function maxWidth(array $lines): int
     {
         $widths = [];
 
         foreach ($lines as $line) {
-            $widths[] = $this->getSize($size, $file, $line)['width'];
+            $widths[] = $this->getSize($line)['width'];
         }
 
         return max($widths);
@@ -87,26 +88,20 @@ class ImageService
         return Image::make($bg);
     }
 
-    public function limitByWidth($size, $font, $txt, $width)
+    public function limitByWidth()
     {
         $str = '';
 
-        foreach (str_split($txt) as $letter) {
+        foreach (str_split($this->component['text']) as $letter) {
             $str .= $letter;
 
-            $box = $this->getSize($size, $font, $str);
-
-            if ($box['width'] >= $width) {
+            $box = $this->getSize($str);
+            if ($box['width'] >= $this->component['width']) {
                 return strlen($str);
             }
         }
     }
 }
-
-// $txt = 'The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog?';
-// $width  = (new ImageService())->limitByWidth(30, 'public/model/fonts/Homework.ttf', $txt, 300);
-// var_dump($width);exit;
-
 
 $template = json_decode(file_get_contents('./public/model/templates/second.json'), true);
 $post     = json_decode(file_get_contents('./public/model/posts/second.json'), true);
