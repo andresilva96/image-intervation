@@ -1,5 +1,6 @@
 {
-    "components": [
+    "template": "public/model/templates/first.json",
+    "dynamic": [
         {
             "text": "The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog?"
         },
