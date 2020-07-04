@@ -1,5 +1,11 @@
 {
-    "bg": "public/model/imgs/background/bancada_tabua.jpg",
+    "bg": {
+        "img": "public/model/imgs/background/bancada_tabua.jpg",
+        "border": {
+            "size": 10,
+            "color": "#ff0000"
+        }
+    },
     "dynamic": [
         {
             "font": "public/model/fonts/Homework.ttf",

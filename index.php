@@ -13,7 +13,7 @@ class ImageService
 
     public function generate(array $data)
     {
-        $this->img = $this->getBg($data['bg']);
+        $this->getBg($data['bg']);
         $this->apply($data['dynamic']);
         $this->apply($data['static']);
 
@@ -57,7 +57,7 @@ class ImageService
         }
     }
 
-    public function getSize($text = '0')
+    public function getSize(string $text = '0'): array
     {
         $font = new Font($text);
         $font->file($this->component['font']);
@@ -86,16 +86,18 @@ class ImageService
         return $rgba;
     }
 
-    public function getBg($bg)
+    public function getBg(array $bg): ImageService
     {
-        if (is_array($bg)) {
-            return Image::canvas($bg['width'], $bg['height'], $this->getRgba($bg['color']));
-        }
+        $this->img = isset($bg['img'])
+            ? Image::make($bg['img'])
+            : Image::canvas($bg['width'], $bg['height'], $this->getRgba($bg['color']));
 
-        return Image::make($bg);
+        if (isset($bg['border'])) $this->setPadding($bg['border']);
+
+        return $this;
     }
 
-    public function limitByWidth()
+    public function limitByWidth(): int
     {
         $str = '';
 
@@ -107,6 +109,13 @@ class ImageService
                 return strlen($str);
             }
         }
+    }
+
+    public function setPadding($pad)
+    {
+        $size = $pad['size'];
+        $color = $this->getRgba($pad['color']);
+        return $this->img->resizeCanvas($this->img->width() + $size, $this->img->height() + $size, 'center', false, $color);
     }
 }
 
